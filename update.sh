@@ -1,6 +1,9 @@
 #! /bin/bash
 
-cd $(dirname $0) 
+INSTALLER="$(pwd)"
+INSTALLED="/opt/chromium"
+
+sudo mkdir -p /opt/chromium
 
 #LASTCHANGE_URL=""https://github.com/nkitan/chromium_stable_installer/blob/master/current_latest_revision.txt""
 
@@ -9,7 +12,7 @@ REVISION='812859'
 
 echo "latest revision is $REVISION"
 
-if [ -d $REVISION ] ; then
+if [ -d $REVISION ] && [ "$1" != -f ] ; then
   echo "already have latest version"
   exit
 fi
@@ -20,8 +23,8 @@ ZIP_FILE="${REVISION}-chrome-linux.zip"
 echo "fetching $ZIP_URL"
  
 echo "deleting previous installation"
-rm -rf $REVISION
-mkdir $REVISION
+sudo rm -rf $REVISION
+sudo mkdir $REVISION
 pushd $REVISION
 
 if [ $? == 0 ] ; then
@@ -31,12 +34,15 @@ else
         exit
 fi
 
-curl -# $ZIP_URL > $ZIP_FILE
+sudo bash -c "curl -# $ZIP_URL > $ZIP_FILE"
+
 echo "unzipping.."
-unzip $ZIP_FILE
+sudo unzip $ZIP_FILE
 [ $? -ne 0 ] && { printf "Error: not a valid zip file\n" ; exit 1; }
 
 popd
-rm -f ./latest
-ln -s $REVISION/chrome-linux/ ./latest
-
+sudo rm -f $INSTALLED/latest
+sudo ln -s $INSTALLED/$REVISION/chrome-linux/ $INSTALLED/latest
+sudo ln -s -f $INSTALLED/latest/chrome /usr/bin/chromium && sudo chmod +x /usr/bin/chromium
+sudo cp $INSTALLER/chromium.desktop /usr/share/applications/chromium.desktop
+ 

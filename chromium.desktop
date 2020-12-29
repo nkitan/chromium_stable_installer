@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Chromium
+GenericName=Web Browser
+Icon=chromium.png
+TryExec=/usr/bin/chromium
+Exec=/usr/bin/chromium
+Terminal=false
+Categories=Application;Internet;
