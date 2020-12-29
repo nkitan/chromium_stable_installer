@@ -2,9 +2,10 @@
 
 cd $(dirname $0) 
 
-LASTCHANGE_URL="https://github.com/nkitan/chromium-latest-linux/blob/master/current_latest_revision.txt"
+#LASTCHANGE_URL=""https://github.com/nkitan/chromium_stable_installer/blob/master/current_latest_revision.txt""
 
-REVISION=$(curl -s -S $LASTCHANGE_URL)
+#REVISION=$(curl -s -S $LASTCHANGE_URL)
+REVISION='812859'
 
 echo "latest revision is $REVISION"
 
@@ -33,6 +34,8 @@ fi
 curl -# $ZIP_URL > $ZIP_FILE
 echo "unzipping.."
 unzip $ZIP_FILE
+[ $? -ne 0 ] && { printf "Error: not a valid zip file\n" ; exit 1; }
+
 popd
 rm -f ./latest
 ln -s $REVISION/chrome-linux/ ./latest
