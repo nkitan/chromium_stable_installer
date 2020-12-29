@@ -6,9 +6,9 @@ INSTALLED="/opt/chromium"
 sudo mkdir -p /opt/chromium
 
 #LASTCHANGE_URL=""https://github.com/nkitan/chromium_stable_installer/blob/master/current_latest_revision.txt""
-#REVISION=$(curl -s -S $LASTCHANGE_URL)
 
-REVISION='812859'
+#REVISION=$(curl -s -S $LASTCHANGE_URL)
+REVISION="$(cat $INSTALLER/current_stable_revision.txt)"
 
 echo "latest revision is $REVISION"
 
